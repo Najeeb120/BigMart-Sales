@@ -125,4 +125,57 @@ Item_Identifier  Item_Weight     Item_Fat_Content Item_Visibility
    followed by snack foods and household products. 
    
    
+  Now lets use a boxplot as th main benefit of box plot is to outlier deviation of corresponding variable.
   
+  ggplot(train, aes(Item_Type, Item_MRP)) +geom_boxplot() +ggtitle("Box Plot") + theme(axis.text.x = element_text(angle = 65, vjust = 0.5, color = "red")) + xlab("Item Type") + ylab("Item MRP") + ggtitle("Item Type vs Item Price")
+
+From Rplot4.jpeg file we see that that black line denotes an outlier and  middle line you see in the box is mean value of each item.
+
+Now lets impute the missing values
+
+Previously we saw that Item_Weight has missing values.As Item_Weight is a continuous variable we can impute the missing values with mean/median
+of item_weight
+
+First of all we will combine both train and test datasets.But to combine two data frames we have to ensure that they have
+equal columns
+
+dim(train)
+8523 12
+
+dim(test)
+5681 11
+
+#Thios shows that test dataset has one less column.Let’s first add the column. We can give this column any value. 
+One approach would be to extract the mean value of sales from train data set and use it as placeholder for test variable Item _Outlet_ Sales. Anyways, let’s make it simple for now.
+I’ve taken a value 1. #
+
+#Now combine tha datasets 
+
+test$Item_Outlet_Sales <-  1
+combi <- rbind(train, test)
+
+#Now impute the missing values with median.I am using median because it is very robust to outliers.
+
+combi$Item_Weight[is.na(combi$Item_Weight)] <- median(combi$Item_Weight, na.rm = TRUE)
+table(is.na(combi$Item_Weight))
+
+Lets proceed with categorical variables.During exploration, we saw there are mis-matched levels in variables 
+which needs to be corrected.
+
+> levels(combi$Outlet_Size)[1] <- "Other"
+> library(plyr)
+> combi$Item_Fat_Content <- revalue(combi$Item_Fat_Content,
++                                   c("LF" = "Low Fat", "reg" = "Regular"))
+> combi$Item_Fat_Content <- revalue(combi$Item_Fat_Content, c("low fat" = "Low Fat"))
+> table(combi$Item_Fat_Content)
+
+Low Fat Regular 
+   9185    5019 
+   
+   #Using commands above I have renamed levels of Item_Fat Content
+   
+
+
+
+
+
