@@ -1,1 +1,110 @@
 
+As we are usiong R to analyze the datasets
+First of all set the working directories and import the dataset
+setwd("D:/RStudio/Bigmart")
+
+ train <- read.csv("Train.csv")
+ test <- read.csv("Test.csv")
+ 
+ #check no of columns and rows in the dataset using dim()
+ 
+ dim(train)
+#There are 8523 rows and 12 columns in train data set 
+dim(train)
+[1] 8523   12
+
+dim(test)
+#We have 5681 rows and 11 columns in data set. 
+[1] 5681   11
+
+Now lets analyze train dataset
+#str() gives info about the variables and their types
+str(train)
+'data.frame': 8523 obs. of 12 variables:
+$ Item_Identifier : Factor w/ 1559 levels "DRA12","DRA24",..: 157 9 663 1122 1298 759 697 739 441 991 ...
+$ Item_Weight : num 9.3 5.92 17.5 19.2 8.93 ...
+$ Item_Fat_Content : Factor w/ 5 levels "LF","low fat",..: 3 5 3 5 3 5 5 3 5 5 ...
+$ Item_Visibility : num 0.016 0.0193 0.0168 0 0 ...
+$ Item_Type : Factor w/ 16 levels "Baking Goods",..: 5 15 11 7 10 1 14 14 6 6 ...
+$ Item_MRP : num 249.8 48.3 141.6 182.1 53.9 ...
+$ Outlet_Identifier : Factor w/ 10 levels "OUT010","OUT013",..: 10 4 10 1 2 4 2 6 8 3 ...
+$ Outlet_Establishment_Year: int 1999 2009 1999 1998 1987 2009 1987 1985 2002 2007 ...
+$ Outlet_Size : Factor w/ 4 levels "","High","Medium",..: 3 3 3 1 2 3 2 3 1 1 ...
+$ Outlet_Location_Type : Factor w/ 3 levels "Tier 1","Tier 2",..: 1 3 1 3 3 3 3 3 2 2 ...
+$ Outlet_Type : Factor w/ 4 levels "Grocery Store",..: 2 3 2 1 2 3 2 4 2 2 ...
+$ Item_Outlet_Sales : num 3735 443 2097 732 995 ...
+
+Next we nweed to check if this dataset is having any missing values
+table(is.na(train))
+ FALSE   TRUE 
+100813   1463 
+#this shows that train dataset is having 1463 missing values
+
+#Now lets check the variables in which values are missing
+
+colSums(is.na(train))
+  Item_Identifier               Item_Weight 
+                        0                      1463 
+         Item_Fat_Content           Item_Visibility 
+                        0                         0 
+                Item_Type                  Item_MRP 
+                        0                         0 
+        Outlet_Identifier Outlet_Establishment_Year 
+                        0                         0 
+              Outlet_Size      Outlet_Location_Type 
+                        0                         0 
+              Outlet_Type         Item_Outlet_Sales 
+                        0                         0
+                        
+
+Therefore we see that column Item_Weight has 1463 missing values.Lets drwa some more inferences about the dataset
+
+summary(train)
+
+Item_Identifier  Item_Weight     Item_Fat_Content Item_Visibility  
+ FDG33  :  10    Min.   : 4.555   LF     : 316     Min.   :0.00000  
+ FDW13  :  10    1st Qu.: 8.774   low fat: 112     1st Qu.:0.02699  
+ DRE49  :   9    Median :12.600   Low Fat:5089     Median :0.05393  
+ DRN47  :   9    Mean   :12.858   reg    : 117     Mean   :0.06613  
+ FDD38  :   9    3rd Qu.:16.850   Regular:2889     3rd Qu.:0.09459  
+ FDF52  :   9    Max.   :21.350                    Max.   :0.32839  
+ (Other):8467    NA's   :1463                                       
+                 Item_Type       Item_MRP      Outlet_Identifier
+ Fruits and Vegetables:1232   Min.   : 31.29   OUT027 : 935     
+ Snack Foods          :1200   1st Qu.: 93.83   OUT013 : 932     
+ Household            : 910   Median :143.01   OUT035 : 930     
+ Frozen Foods         : 856   Mean   :140.99   OUT046 : 930     
+ Dairy                : 682   3rd Qu.:185.64   OUT049 : 930     
+ Canned               : 649   Max.   :266.89   OUT045 : 929     
+ (Other)              :2994                    (Other):2937     
+ Outlet_Establishment_Year Outlet_Size   Outlet_Location_Type
+ Min.   :1985                    :2410   Tier 1:2388         
+ 1st Qu.:1987              High  : 932   Tier 2:2785         
+ Median :1999              Medium:2793   Tier 3:3350         
+ Mean   :1998              Small :2388                       
+ 3rd Qu.:2004                                                
+ Max.   :2009                                                
+                                                             
+            Outlet_Type   Item_Outlet_Sales 
+ Grocery Store    :1083   Min.   :   33.29  
+ Supermarket Type1:5577   1st Qu.:  834.25  
+ Supermarket Type2: 928   Median : 1794.33  
+ Supermarket Type3: 935   Mean   : 2181.29  
+                          3rd Qu.: 3101.30  
+                          Max.   :13086.9
+  
+  #Conclusions drawn from this dataset
+  1.Item_Fat_Content has improper  factor levels.
+  2.Item_Weight has 1463 missing values.
+  3.Outlet_Size has improper factor levels.
+  
+  #Lets analyze these variables through graphical plots
+  From Visualization perspective,I’ll use ggplot2 package.These graphs would help u understand the frequency of 
+  variables in the data set.
+  
+  library("ggplot2")
+  #Load ggplot library
+  
+  ggplot(train, aes(x= Item_Visibility, y = Item_Outlet_Sales)) + geom_point(size = 2.0, color="blue") + xlab("Item Visibility") + ylab("Item Outlet Sales") + ggtitle("Item Visibility vs Item Outlet Sales")
+  
+  
