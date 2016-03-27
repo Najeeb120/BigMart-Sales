@@ -175,7 +175,100 @@ Low Fat Regular
    #Using commands above I have renamed levels of Item_Fat Content
    
 
+(Data Manipulstion)The next level of data  exploration :Count of outlet identifiers
+
+> library(dplyr)
+> a <- combi%>%
+            group_by(Outlet_Identifier)%>%
+            tally()
+
+> head(a)
+Source: local data frame [6 x 2] Outlet_Identifier n
+(fctr)           (int)
+1 OUT010         925
+2 OUT013         1553
+3 OUT017         1543
+4 OUT018         1546
+5 OUT019         880
+6 OUT027         1559
+
+> names(a)[2] <- "Outlet_Count"
+> combi <- full_join(a, combi, by = "Outlet_Identifier")
 
 
+#There are 10 unique outlets in this data. This variable will give us information on count of outlets in the data set. 
+
+
+Next count of Item identifiers
+
+In the same way we can compute count of item_identifiers
+
+b <- combi%>%
+          group_by(Item_Identifier)%>%
+          tally()
+
+> names(b)[2] <- "Item_Count"
+> head (b)
+Item_Identifier   Item_Count
+(fctr)            (int)
+1 DRA12             9
+2 DRA24             10
+3 DRA59             10
+4 DRB01             8
+5 DRB13             9
+6 DRB24             8
+
+Count of Outlet years
+
+#This variable represent the information of existence of a particular outlet 
+
+c <- combi%>%
+           select(Outlet_Establishment_Year)%>% 
+           mutate(Outlet_Year = 2012 - combi$Outlet_Establishment_Year)
+ > head(c)
+Outlet_Establishment_Year  Outlet_Year
+1 1999                       14
+2 2009                        4
+3 1999                       14
+4 1998                       15
+5 1987                       26
+6 2009                        4
+
+> combi <- full_join(c, combi)
+This suggests that outlets established in 1999 were 14 years old in 2012 and so on.
+
+Now lets discover new trends in Item_identifier
+
+Here I’ll use substr(), gsub() function to extract and rename the variables respectively.
+
+> q <- substr(combi$Item_Identifier,1,2)
+> q <- gsub("FD","Food",q)
+> q <- gsub("DR","Drinks",q)
+> q <- gsub("NC","Non-Consumable",q)
+> table(q)
+   Drinks Food  Non-Consumable 
+   1317   10201 2686
+   
+   after that add his information in our data set with a variable name ‘Item_Type_New.
+   combi$Item_Type_New <- q
+   
+   Label encoding
+   
+   In our data set, the variable Item_Fat_Content has 2 levels: Low Fat and Regular. 
+   So, we’ll encode Low Fat as 0 and Regular as 1. This will help us convert a factor variable in numeric variable.
+   
+   
+   combi$Item_Fat_Content <- ifelse(combi$Item_Fat_Content == "Regular",1,0)
+   combi <- dummy.data.frame(combi, names = c('Outlet_Size','Outlet_Location_Type','Outlet_Type', 'Item_Type_New'),  sep='_')
+   
+   
+   library(dummies)
+   combi <- dummy.data.frame(combi, names = c('Outlet_Size','Outlet_Location_Type','Outlet_Type', 'Item_Type_New'),  sep='_')
+   
+   str (combi)
+   
+   #As you can see, after hot encoding, the original variables are removed automatically from the data set.
+   
+   
 
 
