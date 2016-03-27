@@ -107,4 +107,22 @@ Item_Identifier  Item_Weight     Item_Fat_Content Item_Visibility
   
   ggplot(train, aes(x= Item_Visibility, y = Item_Outlet_Sales)) + geom_point(size = 2.0, color="blue") + xlab("Item Visibility") + ylab("Item Outlet Sales") + ggtitle("Item Visibility vs Item Outlet Sales")
   
+  We can see that in Rplot01.jpeg file the  majority of sales has been obtained from products having visibility less than 0.2. This suggests that item_visibility < 2 must be a significant
+  factor in determining sales.
+  
+  #Let’s plot few more interesting graphs and explore hidden meaningful insights.
+  
+  ggplot(train, aes(Outlet_Identifier, Item_Outlet_Sales)) + geom_bar(stat = "identity", color = "purple")
+  +theme(axis.text.x = element_text(angle = 70, vjust = 0.5, color = "black"))  + ggtitle("Outlets vs Total Sales") + theme_bw()
+  
+  #From the graph pic Rplot02.jpeg we infer that that OUT027 has contributed to majority of sales and OUT19 have 
+  the least footfall, thereby contributing to the least outlet sales.
+  
+   ggplot(train, aes(Item_Type, Item_Outlet_Sales)) + geom_bar( stat = "identity") +theme(axis.text.x = element_text(angle = 70, vjust = 0.5, color = "navy")) 
+   + xlab("Item Type") + ylab("Item Outlet Sales")+ggtitle("Item Type vs Sales")
+   
+   #From the Uploaded Rplot3.jpeg file we infer that Fruits and Vegetables contribute to the highest amount of outlet sales 
+   followed by snack foods and household products. 
+   
+   
   
