@@ -270,5 +270,61 @@ Here I’ll use substr(), gsub() function to extract and rename the variables re
    #As you can see, after hot encoding, the original variables are removed automatically from the data set.
    
    
+   *********Predictive Analytics**********
+   
+   Before we start Predictive modelling first divide the datasets
+   
+   Lets build a regression model using lm()
+   
+  linearity_model <- lm(Item_Outlet_Sales ~ ., data = new_train)
+  summary(linearity_model)
+
+  Output:
+  
+  Call:
+lm(formula = Item_Outlet_Sales ~ ., data = new_train)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-4285.6  -670.3   -86.8   569.5  7935.0 
+
+Coefficients: (4 not defined because of singularities)
+                                  Estimate Std. Error t value Pr(>|t|)    
+(Intercept)                      1410.2851    83.9349  16.802  < 2e-16 ***
+Item_Weight                        -0.5621     2.9016  -0.194  0.84641    
+Item_Visibility                  -294.0695   248.2562  -1.185  0.23623    
+Item_MRP                           15.5515     0.1968  79.040  < 2e-16 ***
+Outlet_Size_Other                -126.5263    45.3732  -2.789  0.00531 ** 
+Outlet_Size_High                  -78.7257    97.5355  -0.807  0.41960    
+Outlet_Size_Medium                 97.3377    52.3680   1.859  0.06310 .  
+Outlet_Size_Small                       NA         NA      NA       NA    
+`Outlet_Location_Type_Tier 1`    -109.5460    82.3110  -1.331  0.18326    
+`Outlet_Location_Type_Tier 2`      34.4602    82.3173   0.419  0.67550    
+`Outlet_Location_Type_Tier 3`           NA         NA      NA       NA    
+`Outlet_Type_Grocery Store`     -3131.8509    92.6325 -33.809  < 2e-16 ***
+`Outlet_Type_Supermarket Type1` -1242.9727    97.5312 -12.744  < 2e-16 ***
+`Outlet_Type_Supermarket Type2` -1726.6473    52.3330 -32.993  < 2e-16 ***
+`Outlet_Type_Supermarket Type3`         NA         NA      NA       NA    
+Item_Type_New_Drinks               14.4820    49.0778   0.295  0.76794    
+Item_Type_New_Food                 48.5112    31.8249   1.524  0.12747    
+`Item_Type_New_Non-Consumable`          NA         NA      NA       NA    
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 1129 on 8509 degrees of freedom
+Multiple R-squared:  0.5629,	Adjusted R-squared:  0.5622 
+F-statistic: 842.8 on 13 and 8509 DF,  p-value: < 2.2e-16
+
+Adjusted R² measures the goodness of  a regression model. Higher the R², better is the model. Our R² = 0.5629. It means we really did something  wrong.  Let’s figure it out next time.
+
+
+   
+   
+   
+   
+   
+  
+   
+   
 
 
